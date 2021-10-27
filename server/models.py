@@ -21,6 +21,7 @@ class User(db.Model):
     surname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     user_type = db.Column(db.String(50), nullable=False)
+    is_validated = db.Column(db.Boolean())
 
 
     def __repr__(self):
