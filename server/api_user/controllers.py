@@ -27,7 +27,7 @@ def register_user(user_info):
         abort(400, 'Invalid request')
     
     if user_info['password'] != user_info['comfirm_password']:
-        abort(400, 'Passwords does not match')
+        abort(400, 'Password does not match')
     
     if db.session.query(User).filter(User.email == user_info['email']).first():
         abort(400, 'Email is already in use.')
@@ -61,3 +61,9 @@ def confirm_user(token, username):
     user = User.query.filter_by(username=username).first()
     user.is_validated = True
     db.session.commit()
+
+    msg = Message('Confirmation Email', 
+                    sender=email, 
+                    recipients=[user.email])
+    msg.body = 'Your account has been verifed'
+    mail.send(msg)
